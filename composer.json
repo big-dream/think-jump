@@ -3,8 +3,8 @@
   "description": "ThinkPHP6跳转扩展",
   "keywords": [
     "thinkphp",
-    "paginator",
-    "driver"
+    "controller",
+    "jump"
   ],
   "license": "MIT",
   "authors": [

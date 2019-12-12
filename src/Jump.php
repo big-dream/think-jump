@@ -34,6 +34,8 @@ class Jump
             'error_wait'   => 3,
             // 错误跳转的code值
             'error_code'   => 1,
+            // 默认AJAX请求返回数据格式，可用：Json,Jsonp,Xml
+            'ajax_return' => 'Json',
         ];
 
         // 应用配置
@@ -70,7 +72,7 @@ class Jump
 
         // AJAX则返回JSON
         if (Request::isAjax()) {
-            $response = Response::create($result, 'json')
+            $response = Response::create($result, self::getAjaxReturn())
                 ->header($header);
         } else {
             $response = Response::create(self::$config['success_tmpl'], 'view')
@@ -109,7 +111,7 @@ class Jump
 
         // AJAX则返回JSON
         if (Request::isAjax()) {
-            $response = Response::create($result, 'json')
+            $response = Response::create($result, self::getAjaxReturn())
                 ->header($header);
         } else {
             $response = Response::create(self::$config['error_tmpl'], 'view')
@@ -141,7 +143,7 @@ class Jump
                 'msg'  => $msg,
                 'url'  => $url,
             ];
-            $response = Response::create($result, 'json');
+            $response = Response::create($result, self::getAjaxReturn());
         } else {
             $response = Response::create($url, 'redirect', $code);
         }
@@ -163,5 +165,26 @@ class Jump
         }
 
         return (string)Route::buildUrl($url);
+    }
+
+    /**
+     * 获取AJAX请求返回数据格式，根据客户端接受的数据类型自动判断
+     * @return string
+     */
+    protected static function getAjaxReturn()
+    {
+        $type = Request::type();
+        switch ($type) {
+            case 'json':
+            case 'xml':
+                return $type;
+                break;
+            case 'js':
+                return 'jsonp';
+                break;
+            default:
+                return self::$config['ajax_return'];
+                break;
+        }
     }
 }

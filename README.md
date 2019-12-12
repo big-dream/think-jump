@@ -9,19 +9,19 @@ composer require big-dream/think-jump
 
 ## 使用示例
 
-### Controller::success()
+### Jump::success($msg, $url, $wait, $header, $data)
 ```php
 // 显示提示信息，然后返回上一页
-\bigDream\thinkJump::success('操作成功!');
+\bigDream\thinkJump\Jump::success('操作成功!');
 
 // 显示提示信息，然后返回Index/index页面
-\bigDream\thinkJump::success('操作成功!', 'Index/index');
+\bigDream\thinkJump\Jump::success('操作成功!', 'Index/index');
 
 // 显示提示信息，然后15秒后返回Index/index页面
-\bigDream\thinkJump::success('操作成功!', 'Index/index', 15);
+\bigDream\thinkJump\Jump::success('操作成功!', 'Index/index', 15);
 
 // 显示提示信息，并且为页面添加header头，然后15秒后返回Index/index页面
-\bigDream\thinkJump::success('操作成功!', 'Index/index', 15, ['auth-token' => 'abcd学英语']);
+\bigDream\thinkJump\Jump::success('操作成功!', 'Index/index', 15, ['auth-token' => 'abcd学英语']);
 ```
 
 在AJAX请求下，会返回JSON，以下是返回示例
@@ -35,19 +35,19 @@ composer require big-dream/think-jump
 }
 ```
 
-### Controller::error()
+### Jump::error($msg, $url, $wait, $header, $data)
 ```php
 // 显示提示信息，然后返回上一页
-\bigDream\thinkJump::error('操作失败!');
+\bigDream\thinkJump\Jump::error('操作失败!');
 
 // 显示提示信息，然后返回Index/index页面
-\bigDream\thinkJump::error('操作失败!', 'Index/index');
+\bigDream\thinkJump\Jump::error('操作失败!', 'Index/index');
 
 // 显示提示信息，然后15秒后返回Index/index页面
-\bigDream\thinkJump::error('操作失败!', 'Index/index', 15);
+\bigDream\thinkJump\Jump::error('操作失败!', 'Index/index', 15);
 
 // 显示提示信息，并且为页面添加header头，然后15秒后返回Index/index页面
-\bigDream\thinkJump::error('操作失败!', 'Index/index', 15, ['auth-token' => 'abcd学英语']);
+\bigDream\thinkJump\Jump::error('操作失败!', 'Index/index', 15, ['auth-token' => 'abcd学英语']);
 ```
 
 在AJAX请求下，会返回JSON，以下是返回示例
@@ -61,19 +61,19 @@ composer require big-dream/think-jump
 }
 ```
 
-### Controller::redirect()
+### Jump::redirect($url, $msg, $code, $header)
 ```php
 // 跳转到上一页
-\bigDream\thinkJump::redirect();
+\bigDream\thinkJump\Jump::redirect();
 
 // 跳转到Index/index页面，设置在AJAX请求下返回的信息
-\bigDream\thinkJump::redirect('Index/index', '请先登录');
+\bigDream\thinkJump\Jump::redirect('Index/index', '请先登录');
 
 // 跳转到Index/index页面，设置状态码和在AJAX请求下返回的信息
-\bigDream\thinkJump::redirect('Index/index', '请先登录', 301);
+\bigDream\thinkJump\Jump::redirect('Index/index', '请先登录', 301);
 
 // 跳转到Index/index页面，设置状态码、Header头和在AJAX请求下返回的信息
-\bigDream\thinkJump::redirect('Index/index', '请先登录', 301, ['auth-token' => 'abcd学英语']);
+\bigDream\thinkJump\Jump::redirect('Index/index', '请先登录', 301, ['auth-token' => 'abcd学英语']);
 ```
 
 在AJAX请求下，会返回JSON，以下是返回示例
@@ -107,13 +107,15 @@ return [
    'error_wait'   => 3,
    // 错误跳转的code值
    'error_code'   => 1,
+    // 默认AJAX请求返回数据格式，可用：Json,Jsonp,Xml
+    'ajax_return' => 'Json',
 ];
 ```
 
 ### 初始化配置
 如果想配置初始化配置，可以手动初始化。
 ```php
-\bigDream\thinkJump::init([
+\bigDream\thinkJump\Jump::init([
      // 成功跳转页面模板文件
      'success_tmpl' => app()->getRootPath() . 'vendor/big-dream/think-jump/src/success.html',
      // 成功跳转页停留时间(秒)
@@ -126,5 +128,7 @@ return [
      'error_wait'   => 3,
      // 错误跳转的code值
      'error_code'   => 1,
+    // 默认AJAX请求返回数据格式，可用：Json,Jsonp,Xml
+    'ajax_return' => 'Json',
 ]);
 ```
