@@ -34,6 +34,8 @@ class Jump
             'error_wait'   => 3,
             // 错误跳转的code值
             'error_code'   => 1,
+            // 封装API数据的默认code
+            'result_code'  => 0,
             // 默认AJAX请求返回数据格式，可用：Json,Jsonp,Xml
             'ajax_return' => 'Json',
         ];
@@ -72,12 +74,9 @@ class Jump
 
         // AJAX则返回JSON
         if (Request::isAjax()) {
-            $response = Response::create($result, self::getAjaxReturn())
-                ->header($header);
+            $response = Response::create($result, self::getAjaxReturn())->header($header);
         } else {
-            $response = Response::create(self::$config['success_tmpl'], 'view')
-                ->header($header)
-                ->assign($result);
+            $response = Response::create(self::$config['success_tmpl'], 'view')->header($header)->assign($result);
         }
 
         throw new HttpResponseException($response);
@@ -111,12 +110,9 @@ class Jump
 
         // AJAX则返回JSON
         if (Request::isAjax()) {
-            $response = Response::create($result, self::getAjaxReturn())
-                ->header($header);
+            $response = Response::create($result, self::getAjaxReturn())->header($header);
         } else {
-            $response = Response::create(self::$config['error_tmpl'], 'view')
-                ->header($header)
-                ->assign($result);
+            $response = Response::create(self::$config['error_tmpl'], 'view')->header($header)->assign($result);
         }
 
         throw new HttpResponseException($response);
@@ -149,6 +145,30 @@ class Jump
         }
 
         throw new HttpResponseException($response->header($header));
+    }
+
+    /**
+     * 返回封装后的API数据
+     * @param mixed $data 数据
+     * @param mixed $code 状态
+     * @param string $msg 提示信息
+     * @param string $type 数据类型
+     * @param array $header Header头
+     */
+    public static function result($data, $code = null, $msg = '', string $type = null, array $header = [])
+    {
+        is_null(self::$config) && self::init();
+
+        $result = [
+            'code' => $code ?? self::$config['result_code'],
+            'msg'  => $msg,
+            'time' => time(),
+            'data' => $data,
+        ];
+
+        $response = Response::create($result, $type ?? self::getAjaxReturn())->header($header);
+
+        throw new HttpResponseException($response);
     }
 
     /**

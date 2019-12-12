@@ -54,6 +54,31 @@ composer require big-dream/think-jump
 \bigDream\thinkJump\Jump::redirect('Index/index', '请先登录', 301, ['auth-token' => 'abcd学英语']);
 ```
 
+### Jump::result($data, $code, $msg, $type, $header)
+```php
+$result = [
+    ['id' => 1, 'name' => 'jwj'],
+    ['id' => 2, 'name' => 'china'],
+];
+
+// 返回封装后的数据集
+\bigDream\thinkJump\Jump::result($result);
+
+// 返回封装后的数据集，并且设置code
+\bigDream\thinkJump\Jump::result($result, 'success');
+
+// 返回封装后的数据集，并且设置code和msg
+\bigDream\thinkJump\Jump::result($result, 'success', '查询成功');
+
+// 返回封装后的数据集，并且设置code、msg和数据类型
+\bigDream\thinkJump\Jump::result($result, 'success', '查询成功', 'json');
+
+// 返回封装后的数据集，并且设置code、msg、数据类型和Header头
+\bigDream\thinkJump\Jump::result($result, 'success', '查询成功', 'json', ['auth-token' => 'abcd学英语']);
+
+
+```
+
 ## AJAX请求
 当前请求信息`header`中的`x-requested-with`为`XMLHttpRequest`时，会被认定为AJAX请求。
 这时候，程序根据`header`中的`accept`来自动判断客户端所需要的数据类型，然后返回对应的数据类型。
