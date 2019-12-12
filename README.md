@@ -24,17 +24,6 @@ composer require big-dream/think-jump
 \bigDream\thinkJump\Jump::success('操作成功!', 'Index/index', 15, ['auth-token' => 'abcd学英语']);
 ```
 
-在AJAX请求下，会返回JSON，以下是返回示例
-```json
-{
-    "code": 0,
-    "msg": "操作成功!",
-    "url": "/Index/index",
-    "wait": 15,
-    "data": null
-}
-```
-
 ### Jump::error($msg, $url, $wait, $header, $data)
 ```php
 // 显示提示信息，然后返回上一页
@@ -48,17 +37,6 @@ composer require big-dream/think-jump
 
 // 显示提示信息，并且为页面添加header头，然后15秒后返回Index/index页面
 \bigDream\thinkJump\Jump::error('操作失败!', 'Index/index', 15, ['auth-token' => 'abcd学英语']);
-```
-
-在AJAX请求下，会返回JSON，以下是返回示例
-```json
-{
-    "code": 1,
-    "msg": "操作失败!",
-    "url": "/Index/index",
-    "wait": 15,
-    "data": null
-}
 ```
 
 ### Jump::redirect($url, $msg, $code, $header)
@@ -76,13 +54,45 @@ composer require big-dream/think-jump
 \bigDream\thinkJump\Jump::redirect('Index/index', '请先登录', 301, ['auth-token' => 'abcd学英语']);
 ```
 
-在AJAX请求下，会返回JSON，以下是返回示例
+## AJAX请求
+当前请求信息`header`中的`x-requested-with`为`XMLHttpRequest`时，会被认定为AJAX请求。
+这时候，程序根据`header`中的`accept`来自动判断客户端所需要的数据类型，然后返回对应的数据类型。
+
+目前，仅支持三种数据类型：`json`、`jsonp`和`xml`。
+
+### JSON返回示例
 ```json
 {
-    "code": 301,
-    "msg": "请先登录",
-    "url": "/Index/index"
+    "code": 0,
+    "msg": "操作成功!",
+    "url": "/Index/index",
+    "wait": 15,
+    "data": null
 }
+```
+
+### JSONP返回示例
+> 可在请求信息中携带`callback`参数来自定义`JSONP`回调方法，一般放在URL地址参数中，也可以放在POST参数中。
+```js
+jsonpReturn({
+    "code": 0,
+    "msg": "操作成功!",
+    "url": "/Index/index",
+    "wait": 15,
+    "data": null
+});
+```
+
+### XML返回示例
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<think>
+    <code>0</code>
+    <msg>操作成功!</msg>
+    <url>/Index/index</url>
+    <wait>15</wait>
+    <data></data>
+</think>
 ```
 
 ## 使用配置
