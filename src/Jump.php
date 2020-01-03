@@ -7,6 +7,10 @@ use think\facade\Request;
 use think\facade\Route;
 use think\Response;
 
+/**
+ * Jump 跳转类
+ * @package bigDream\thinkJump
+ */
 class Jump
 {
     /**
@@ -180,7 +184,7 @@ class Jump
     {
         if(null === $url) {
             $url = Request::server('HTTP_REFERER', '/');
-        } elseif (0 === strpos($url, '/') || 8 > strpos($url, '://')) {
+        } elseif (0 === strpos($url, '/') || preg_match('@^[a-zA-Z0-9-]+://@', $url)) {
             return $url;
         }
 
