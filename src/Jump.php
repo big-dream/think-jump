@@ -58,12 +58,16 @@ class Jump
      * @param array $header Header头
      * @param mixed $data 其它数据
      */
-    public static function success(string $msg, string $url = '', int $wait = null, array $header = [], $data = null)
+    public static function success(string $msg, string $url = null, int $wait = null, array $header = [], $data = null)
     {
         is_null(self::$config) && self::init();
 
         // URL处理
-        $url = self::buildUrl($url);
+        if (null === $url) {
+            $url = Request::server('HTTP_REFERER', 'javascript:history.back()');
+        } else {
+            $url = self::buildUrl($url);
+        }
 
         // 跳转等待时间
         null === $wait && $wait = self::$config['success_wait'];
@@ -94,12 +98,16 @@ class Jump
      * @param array $header Header头
      * @param mixed $data 其它数据
      */
-    public static function error(string $msg, string $url = '', int $wait = null, array $header = [], $data = null)
+    public static function error(string $msg, string $url = null, int $wait = null, array $header = [], $data = null)
     {
         is_null(self::$config) && self::init();
 
         // URL处理
-        $url = self::buildUrl($url);
+        if (null === $url) {
+            $url = 'javascript:history.back()';
+        } else {
+            $url = self::buildUrl($url);
+        }
 
         // 跳转等待时间
         null === $wait && $wait = self::$config['error_wait'];
@@ -184,7 +192,7 @@ class Jump
     {
         if(null === $url) {
             $url = Request::server('HTTP_REFERER', '/');
-        } elseif (0 === strpos($url, '/') || preg_match('@^[a-zA-Z0-9-]+://@', $url)) {
+        } elseif (preg_match('@^([a-zA-Z0-9-]+://|/|javascript:)@', $url)) {
             return $url;
         }
 
