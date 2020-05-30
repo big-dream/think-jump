@@ -192,7 +192,7 @@ class Jump
     {
         if(null === $url) {
             $url = Request::server('HTTP_REFERER', '/');
-        } elseif (preg_match('@^([a-zA-Z0-9-]+://|/|javascript:)@', $url)) {
+        } elseif (preg_match('@^([a-z0-9-]+://|/|javascript:|\.)@i', $url)) {
             return $url;
         }
 
