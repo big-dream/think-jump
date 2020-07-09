@@ -4,7 +4,7 @@ ThinkPHP6已从核心中移除Jump类，类里面包含`success`、`error`、`re
 
 ## 安装
 ```
-composer require big-dream/think-jump:1.*
+composer require big-dream/think-jump:2.*
 ```
 
 ## 使用示例
@@ -75,8 +75,6 @@ $result = [
 
 // 返回封装后的数据集，并且设置code、msg、数据类型和Header头
 \bigDream\thinkJump\Jump::result($result, 'success', '查询成功', 'json', ['auth-token' => 'abcd学英语']);
-
-
 ```
 
 ## AJAX请求
@@ -118,6 +116,49 @@ jsonpReturn({
     <wait>15</wait>
     <data></data>
 </think>
+```
+
+## 返回Response
+为了方便在中间件里使用，`2.0.0`版本增加了返回`\think\Response`对象的支持，只需要在调用跳转方法前调用`returnResponse`方法即可。
+
+简单示例：
+```php
+return \bigDream\thinkJump\Jump::returnResponse()->success('操作成功!');
+
+return \bigDream\thinkJump\Jump::returnResponse()->error('操作失败!');
+
+return \bigDream\thinkJump\Jump::returnResponse()->redirect();
+
+reutrn \bigDream\thinkJump\Jump::returnResponse()->result([
+    ['id' => 1, 'name' => 'jwj'],
+    ['id' => 2, 'name' => 'china'],
+]);
+```
+
+中间件完整示例：
+```php
+<?php
+namespace app\middleware;
+
+use bigDream\thinkJump\Jump;
+
+class Check
+{
+
+    /**
+     * @param \think\Request $request
+     * @param \Closure $next
+     * @return \think\Response
+     */
+    public function handle($request, \Closure $next)
+    {
+        if (time() % 2) {
+            return Jump::returnResponse()->error('呀，偶数不能访问!');
+        } else {
+            return $next($request);
+        }
+    }
+}
 ```
 
 ## 使用配置
