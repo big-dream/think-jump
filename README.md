@@ -4,7 +4,7 @@ ThinkPHP6已从核心中移除Jump类，类里面包含`success`、`error`、`re
 
 ## 安装
 ```
-composer require big-dream/think-jump
+composer require big-dream/think-jump:1.*
 ```
 
 ## 使用示例
