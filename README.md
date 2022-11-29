@@ -161,12 +161,10 @@ class Check
 }
 ```
 
-## 使用配置
-初始化时，首先会读取应用配置`jump.php`，然后再合并初始化时传入的配置。
-优先级：`默认配置` < `配置文件` < `初始化配置`
+## 配置
 
 ### 配置文件
-默认没有配置文件，如需使用配置文件，请自行在配置目录(/config)新建一个`jump.php`文件并写入以下内容，然后根据需求修改配置内容。
+引入本包时，默认会在配置文件目录 `/config` 自动创建 `jump.php` 配置文件，可根据需求修改配置内容。
 ```php
 <?php
 // 跳转配置
@@ -188,18 +186,18 @@ return [
 ];
 ```
 
-### 初始化配置
-如果想配置初始化配置，可以手动初始化。
+### 动态修改配置
+如果想使用时，动态修改配置，可以使用`Jump::setConfig()`方法。
 ```php
-\bigDream\thinkJump\Jump::init([
-     // 成功跳转页面模板文件
-     'success_tmpl' => app()->getRootPath() . 'vendor/big-dream/think-jump/src/success.html',
+// 修改单项配置
+\bigDream\thinkJump\Jump::setConfig('success_wait', 1);
+
+// 修改多项配置
+\bigDream\thinkJump\Jump::setConfig([
      // 成功跳转页停留时间(秒)
      'success_wait' => 3,
      // 成功跳转的code值
      'success_code' => 0,
-     // 错误跳转页面模板文件
-     'error_tmpl'   => app()->getRootPath() . 'vendor/big-dream/think-jump/src/error.html',
      // 错误跳转页停留时间(秒)
      'error_wait'   => 3,
      // 错误跳转的code值
@@ -207,4 +205,13 @@ return [
     // 默认AJAX请求返回数据格式，可用：Json,Jsonp,Xml
     'ajax_return' => 'Json',
 ]);
+```
+
+### 获取当前配置
+```php
+// 获取全部配置
+dump(\bigDream\thinkJump\Jump::getConfig());
+
+// 获取单项配置
+dump(\bigDream\thinkJump\Jump::getConfig('success_wait'));
 ```

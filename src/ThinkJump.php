@@ -60,17 +60,6 @@ class ThinkJump
     }
 
     /**
-     * 初始化配置
-     * @deprecated 2.0.0 采用setConfig()设置配置
-     * @param array $config 配置
-     * @see setConfig()
-     */
-    public function init(array $config = [])
-    {
-        $this->setConfig($config);
-    }
-
-    /**
      * 设置配置
      * @param array|string $name 配置名或配置数组
      * @param mixed $value 配置值

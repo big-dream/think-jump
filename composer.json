@@ -24,5 +24,12 @@
       "bigDream\\thinkJump\\": "src"
     },
     "files": []
+  },
+  "extra": {
+    "think": {
+      "config":{
+        "jump": "src/config.php"
+      }
+    }
   }
 }
