@@ -65,7 +65,8 @@ class ThinkJump
      * @param array $config 配置
      * @see setConfig()
      */
-    public function init(array $config = []) {
+    public function init(array $config = [])
+    {
         $this->setConfig($config);
     }
 
@@ -86,10 +87,10 @@ class ThinkJump
 
     /**
      * 获取配置
-     * @param null|string $name 配置名
+     * @param string|null $name 配置名
      * @return array|mixed|null
      */
-    public function getConfig($name = null)
+    public function getConfig(string $name = null)
     {
         if (null === $name) {
             return $this->config;
@@ -100,15 +101,15 @@ class ThinkJump
 
     /**
      * 成功跳转
-     * @param string $msg 信息
-     * @param string $url 跳转地址
-     * @param int $wait 等待时间
-     * @param array $header Header头
-     * @param mixed $data 其它数据
+     * @param string      $msg    信息
+     * @param string|null $url    跳转地址
+     * @param int|null    $wait   等待时间
+     * @param array       $header Header头
+     * @param mixed       $data   其它数据
      * @return Response
-     * @throws \think\exception\HttpResponseException
+     * @throws HttpResponseException
      */
-    public function success(string $msg, string $url = null, int $wait = null, array $header = [], $data = null)
+    public function success(string $msg, string $url = null, int $wait = null, array $header = [], $data = null): Response
     {
         // URL处理
         if (null === $url) {
@@ -140,15 +141,15 @@ class ThinkJump
 
     /**
      * 错误跳转
-     * @param string $msg 错误信息
-     * @param string $url 跳转地址
-     * @param int $wait 等待时间
-     * @param array $header Header头
-     * @param mixed $data 其它数据
+     * @param string      $msg    错误信息
+     * @param string|null $url    跳转地址
+     * @param int|null    $wait   等待时间
+     * @param array       $header Header头
+     * @param mixed       $data   其它数据
      * @return Response
-     * @throws \think\exception\HttpResponseException
+     * @throws HttpResponseException
      */
-    public function error(string $msg, string $url = null, int $wait = null, array $header = [], $data = null)
+    public function error(string $msg, string $url = null, int $wait = null, array $header = [], $data = null): Response
     {
         // URL处理
         if (null === $url) {
@@ -180,14 +181,14 @@ class ThinkJump
 
     /**
      * 页面重定向
-     * @param string $url 重定向地址
-     * @param string $msg 消息
-     * @param int $code 状态码
-     * @param array $header Header头
+     * @param string|null $url    重定向地址
+     * @param string      $msg    消息
+     * @param int         $code   状态码
+     * @param array       $header Header头
      * @return Response
-     * @throws \think\exception\HttpResponseException
+     * @throws HttpResponseException
      */
-    public function redirect(string $url = null, string $msg = '', int $code = 302, array $header = [])
+    public function redirect(string $url = null, string $msg = '', int $code = 302, array $header = []): Response
     {
         // URL处理
         $url = self::buildUrl($url);
@@ -209,15 +210,15 @@ class ThinkJump
 
     /**
      * 返回封装后的API数据
-     * @param mixed $data 数据
-     * @param mixed $code 状态
-     * @param string $msg 提示信息
-     * @param string $type 数据类型
-     * @param array $header Header头
+     * @param mixed       $data   数据
+     * @param mixed       $code   状态
+     * @param string      $msg    提示信息
+     * @param string|null $type   数据类型
+     * @param array       $header Header头
      * @return Response
-     * @throws \think\exception\HttpResponseException
+     * @throws HttpResponseException
      */
-    public function result($data, $code = null, $msg = '', string $type = null, array $header = [])
+    public function result($data, $code = null, $msg = '', string $type = null, array $header = []): Response
     {
         $result = [
             'code' => $code ?? $this->config['result_code'],
@@ -232,22 +233,23 @@ class ThinkJump
     }
 
     /**
-     * 下次直接返回Response，不抛出异常
+     * 下次直接返回 Response，不抛出异常
+     * @param bool $return 
      * @return $this
      */
-    public function returnResponse()
+    public function returnResponse(bool $return = true): ThinkJump
     {
-        $this->returnResponse = false;
+        $this->returnResponse = $return;
 
         return $this;
     }
 
     /**
      * URL地址生成
-     * @param string $url
+     * @param string|null $url
      * @return string
      */
-    public function buildUrl(string $url = null)
+    public function buildUrl(string $url = null): string
     {
         if(null === $url) {
             $url = Request::server('HTTP_REFERER', '/');
@@ -262,7 +264,7 @@ class ThinkJump
      * 获取AJAX请求返回数据格式，根据客户端接受的数据类型自动判断
      * @return string
      */
-    protected function getAjaxReturn()
+    protected function getAjaxReturn(): string
     {
         $type = Request::type();
         switch ($type) {
@@ -281,17 +283,13 @@ class ThinkJump
 
     /**
      * 抛出异常或返回响应对象
-     * @param \think\Response $response
-     * @throws \think\exception\HttpResponseException
-     * @return \think\Response
+     * @param Response $response
+     * @return Response
+     * @throws HttpResponseException
      */
-    protected function throwException(Response $response)
+    protected function throwException(Response $response): Response
     {
-        if (true === $this->returnResponse) {
-            $this->returnResponse = true;
-
-            return $response;
-        }
+        if (true === $this->returnResponse) return $response;
 
         throw new HttpResponseException($response);
     }
