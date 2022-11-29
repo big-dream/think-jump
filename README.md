@@ -1,6 +1,6 @@
-# ThinkPHP6跳转扩展
+# ThinkPHP6.0跳转扩展
 
-ThinkPHP6已从核心中移除Jump类，类里面包含`success`、`error`、`redirect`和`result`方法。这几个方法在项目里面用的蛮多的，所以将它们移植成一个扩展使用。
+从 ThinkPHP 6.0 已从核心中移除 Jump 类，类里面包含`success`、`error`、`redirect`和`result`方法。这几个方法在项目里面用的蛮多的，所以将它们移植成一个扩展使用。
 
 ## 安装
 ```
