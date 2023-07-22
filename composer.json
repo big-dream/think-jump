@@ -1,7 +1,7 @@
 {
   "name": "big-dream/think-jump",
-  "description": "ThinkPHP 6.1 跳转扩展",
-  "version": "3.0.0",
+  "description": "ThinkPHP 8.0 跳转扩展",
+  "version": "4.0.0",
   "keywords": [
     "thinkphp",
     "controller",
@@ -16,8 +16,8 @@
     }
   ],
   "require": {
-    "php": ">=7.1.0",
-    "topthink/framework":"^6.1|^8.0"
+    "php": ">=8.0.0",
+    "topthink/framework":"^8.0"
   },
   "autoload": {
     "psr-4": {
