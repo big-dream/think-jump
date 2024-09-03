@@ -19,13 +19,13 @@ class ThinkJump
      * 配置
      * @var array
      */
-    protected $config;
+    protected array $config;
 
     /**
      * 不抛出异常，直接返回Response
      * @var bool
      */
-    protected $returnResponse = false;
+    protected bool $returnResponse = false;
 
     /**
      * 构造方法
@@ -65,7 +65,7 @@ class ThinkJump
      * @param mixed $value 配置值
      * @return void
      */
-    public function setConfig($name, $value = null)
+    public function setConfig(array|string $name, mixed $value = null): void
     {
         if (is_array($name)) {
             $this->config = array_merge($this->config, $name);
@@ -79,7 +79,7 @@ class ThinkJump
      * @param string|null $name 配置名
      * @return array|mixed|null
      */
-    public function getConfig(string $name = null)
+    public function getConfig(string $name = null): mixed
     {
         if (null === $name) {
             return $this->config;
@@ -98,7 +98,7 @@ class ThinkJump
      * @return Response
      * @throws HttpResponseException
      */
-    public function success(string $msg, string $url = null, int $wait = null, array $header = [], $data = null): Response
+    public function success(string $msg, string $url = null, int $wait = null, array $header = [], mixed $data = null): Response
     {
         // URL处理
         if (null === $url) {
@@ -134,11 +134,11 @@ class ThinkJump
      * @param string|null $url    跳转地址
      * @param int|null    $wait   等待时间
      * @param array       $header Header头
-     * @param mixed       $data   其它数据
+     * @param mixed|null  $data   其它数据
      * @return Response
      * @throws HttpResponseException
      */
-    public function error(string $msg, string $url = null, int $wait = null, array $header = [], $data = null): Response
+    public function error(string $msg, string $url = null, int $wait = null, array $header = [], mixed $data = null): Response
     {
         // URL处理
         if (null === $url) {
@@ -189,9 +189,9 @@ class ThinkJump
                 'msg'  => $msg,
                 'url'  => $url,
             ];
-            $response = Response::create($result, $this->getAjaxReturn());
+            $response = Response::create($result, $this->getAjaxReturn())->header($header);
         } else {
-            $response = Response::create($url, 'redirect', $code);
+            $response = Response::create($url, 'redirect', $code)->header($header);
         }
 
         return $this->throwException($response);
@@ -200,14 +200,14 @@ class ThinkJump
     /**
      * 返回封装后的API数据
      * @param mixed       $data   数据
-     * @param mixed       $code   状态
+     * @param mixed|null  $code   状态
      * @param string      $msg    提示信息
      * @param string|null $type   数据类型
      * @param array       $header Header头
      * @return Response
      * @throws HttpResponseException
      */
-    public function result($data, $code = null, $msg = '', string $type = null, array $header = []): Response
+    public function result(mixed $data, mixed $code = null, string $msg = '', string $type = null, array $header = []): Response
     {
         $result = [
             'code' => $code ?? $this->config['result_code'],
@@ -226,7 +226,7 @@ class ThinkJump
      * @param bool $return 
      * @return $this
      */
-    public function returnResponse(bool $return = true): ThinkJump
+    public function returnResponse(bool $return = true): static
     {
         $this->returnResponse = $return;
 

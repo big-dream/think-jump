@@ -15,5 +15,5 @@ return [
     // 错误跳转的code值
     'error_code'   => 1,
     // 默认AJAX请求返回数据格式，可用：Json,Jsonp,Xml
-    'ajax_return' => 'Json',
+    'ajax_return'  => 'Json',
 ];

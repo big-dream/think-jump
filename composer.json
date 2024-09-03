@@ -1,7 +1,6 @@
 {
   "name": "big-dream/think-jump",
   "description": "ThinkPHP 8.0 跳转扩展",
-  "version": "4.0.0",
   "keywords": [
     "thinkphp",
     "controller",
