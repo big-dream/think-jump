@@ -79,7 +79,7 @@ class ThinkJump
      * @param string|null $name 配置名
      * @return array|mixed|null
      */
-    public function getConfig(string $name = null): mixed
+    public function getConfig(?string $name = null): mixed
     {
         if (null === $name) {
             return $this->config;
@@ -98,7 +98,7 @@ class ThinkJump
      * @return Response
      * @throws HttpResponseException
      */
-    public function success(string $msg, string $url = null, int $wait = null, array $header = [], mixed $data = null): Response
+    public function success(string $msg, ?string $url = null, ?int $wait = null, array $header = [], mixed $data = null): Response
     {
         // URL处理
         if (null === $url) {
@@ -138,7 +138,7 @@ class ThinkJump
      * @return Response
      * @throws HttpResponseException
      */
-    public function error(string $msg, string $url = null, int $wait = null, array $header = [], mixed $data = null): Response
+    public function error(string $msg, ?string $url = null, ?int $wait = null, array $header = [], mixed $data = null): Response
     {
         // URL处理
         if (null === $url) {
@@ -177,7 +177,7 @@ class ThinkJump
      * @return Response
      * @throws HttpResponseException
      */
-    public function redirect(string $url = null, string $msg = '', int $code = 302, array $header = []): Response
+    public function redirect(?string $url = null, string $msg = '', int $code = 302, array $header = []): Response
     {
         // URL处理
         $url = self::buildUrl($url);
@@ -207,7 +207,7 @@ class ThinkJump
      * @return Response
      * @throws HttpResponseException
      */
-    public function result(mixed $data, mixed $code = null, string $msg = '', string $type = null, array $header = []): Response
+    public function result(mixed $data, mixed $code = null, string $msg = '', ?string $type = null, array $header = []): Response
     {
         $result = [
             'code' => $code ?? $this->config['result_code'],
@@ -238,7 +238,7 @@ class ThinkJump
      * @param string|null $url
      * @return string
      */
-    public function buildUrl(string $url = null): string
+    public function buildUrl(?string $url = null): string
     {
         if(null === $url) {
             $url = Request::server('HTTP_REFERER', '/');
